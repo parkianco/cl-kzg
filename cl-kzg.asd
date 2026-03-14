@@ -7,7 +7,7 @@
   :description "Pure Common Lisp KZG polynomial commitment scheme"
   :author "Parkian Company LLC"
   :license "BSD-3-Clause"
-  :version "1.0.0"
+  :version "0.1.0"
   :depends-on ()
   :serial t
   :components
@@ -19,3 +19,14 @@
      (:file "curve")
      (:file "polynomial")
      (:file "kzg")))))
+
+(asdf:defsystem #:cl-kzg/test
+  :description "Tests for cl-kzg"
+  :depends-on (#:cl-kzg)
+  :serial t
+  :components ((:module "test"
+                :components ((:file "test-kzg"))))
+  :perform (asdf:test-op (o c)
+             (let ((result (uiop:symbol-call :cl-kzg.test :run-tests)))
+               (unless result
+                 (error "Tests failed")))))
