@@ -6,7 +6,11 @@
 (defpackage #:cl-kzg
   (:use #:cl)
   (:export
-   #:with-kzg-timing
+   #:identity-list
+   #:flatten
+   #:map-keys
+   #:now-timestamp
+#:with-kzg-timing
    #:kzg-batch-process
    #:kzg-health-check;; Constants
    #:+kzg-default-curve+
