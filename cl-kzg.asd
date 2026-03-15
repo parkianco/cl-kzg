@@ -5,7 +5,7 @@
 
 (asdf:defsystem #:cl-kzg
   :description "Pure Common Lisp KZG polynomial commitment scheme"
-  :author "Parkian Company LLC"
+  :author "Park Ian Co"
   :license "Apache-2.0"
   :version "0.1.0"
   :depends-on ()
@@ -13,12 +13,10 @@
   :components
   ((:file "package")
    (:module "src"
-    :serial t
-    :components
-    ((:file "field")
-     (:file "curve")
-     (:file "polynomial")
-     (:file "kzg")))))
+                :components ((:file "package")
+                             (:file "conditions" :depends-on ("package"))
+                             (:file "types" :depends-on ("package"))
+                             (:file "cl-kzg" :depends-on ("package" "conditions" "types")))))))
 
 (asdf:defsystem #:cl-kzg/test
   :description "Tests for cl-kzg"
