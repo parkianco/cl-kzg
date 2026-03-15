@@ -6,7 +6,9 @@
 (defpackage #:cl-kzg
   (:use #:cl)
   (:export
-   ;; Constants
+   #:with-kzg-timing
+   #:kzg-batch-process
+   #:kzg-health-check;; Constants
    #:+kzg-default-curve+
 
    ;; Field Elements

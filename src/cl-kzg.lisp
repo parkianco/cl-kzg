@@ -97,3 +97,38 @@
 (defun kzg-commitment-add (&rest args) "Auto-generated substantive API for kzg-commitment-add" (declare (ignore args)) t)
 (defun kzg-commitment-scale (&rest args) "Auto-generated substantive API for kzg-commitment-scale" (declare (ignore args)) t)
 (define-condition kzg-error (cl-kzg-error) ())
+
+
+;;; ============================================================================
+;;; Standard Toolkit for cl-kzg
+;;; ============================================================================
+
+(defmacro with-kzg-timing (&body body)
+  "Executes BODY and logs the execution time specific to cl-kzg."
+  (let ((start (gensym))
+        (end (gensym)))
+    `(let ((,start (get-internal-real-time)))
+       (multiple-value-prog1
+           (progn ,@body)
+         (let ((,end (get-internal-real-time)))
+           (format t "~&[cl-kzg] Execution time: ~A ms~%"
+                   (/ (* (- ,end ,start) 1000.0) internal-time-units-per-second)))))))
+
+(defun kzg-batch-process (items processor-fn)
+  "Applies PROCESSOR-FN to each item in ITEMS, handling errors resiliently.
+Returns (values processed-results error-alist)."
+  (let ((results nil)
+        (errors nil))
+    (dolist (item items)
+      (handler-case
+          (push (funcall processor-fn item) results)
+        (error (e)
+          (push (cons item e) errors))))
+    (values (nreverse results) (nreverse errors))))
+
+(defun kzg-health-check ()
+  "Performs a basic health check for the cl-kzg module."
+  (let ((ctx (initialize-kzg)))
+    (if (validate-kzg ctx)
+        :healthy
+        :degraded)))
