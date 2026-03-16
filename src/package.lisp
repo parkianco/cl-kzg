@@ -6,6 +6,9 @@
 (defpackage #:cl-kzg
   (:use #:cl)
   (:export
+   #:kzg-execute
+   #:kzg-context
+   #:initialize-kzg
    #:memoize-function
    #:deep-copy-list
    #:group-by-count
